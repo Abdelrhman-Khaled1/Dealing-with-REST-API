@@ -9,11 +9,11 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-public class UserResource {
+public class UserController {
 
     private UserDaoService service;
 
-    public UserResource(UserDaoService service) {
+    public UserController(UserDaoService service) {
         this.service = service;
     }
 
