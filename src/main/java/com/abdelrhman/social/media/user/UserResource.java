@@ -29,6 +29,10 @@ public class UserResource {
             throw new UserNotFoundException("id " + id);
         return user;
     }
+    @DeleteMapping("/users/{id}")
+    public void deleteUser(@PathVariable Integer id) {
+        service.deleteById(id);
+    }
 
     @PostMapping("/users")
     public ResponseEntity<User> save(@RequestBody User user) {
