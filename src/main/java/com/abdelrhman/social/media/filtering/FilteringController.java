@@ -16,15 +16,7 @@ public class FilteringController {
     @GetMapping("/filtering")
     public MappingJacksonValue filtering() {
         SomeBean someBean = new SomeBean("value1", "value2", "value3");
-        MappingJacksonValue mappingJacksonValue = new MappingJacksonValue(someBean);
-
-        SimpleBeanPropertyFilter filter = SimpleBeanPropertyFilter.filterOutAllExcept("field1","field2");
-
-        FilterProvider filters = new SimpleFilterProvider().addFilter("SomeBeanFilter", filter);
-
-        mappingJacksonValue.setFilters(filters);
-
-        return mappingJacksonValue;
+        return applyFilter(someBean, "field1", "field2");
     }
 
     @GetMapping("/filtering-list")//field 2 , field 3
@@ -34,9 +26,17 @@ public class FilteringController {
                 new SomeBean("value4", "value5", "value6")
         );
 
-        MappingJacksonValue mappingJacksonValue = new MappingJacksonValue(someBeans);
+        return applyFilter(someBeans, "field2", "field3");
+    }
 
-        SimpleBeanPropertyFilter filter = SimpleBeanPropertyFilter.filterOutAllExcept("field2","field3");
+    private MappingJacksonValue applyFilter(Object data, String... fields) {
+        //Object to accept all kind of data
+        //String... fields -> This is known as a varargs (variable-length argument) parameter. It allows you to pass an arbitrary number of String arguments to the method
+
+
+        MappingJacksonValue mappingJacksonValue = new MappingJacksonValue(data);
+
+        SimpleBeanPropertyFilter filter = SimpleBeanPropertyFilter.filterOutAllExcept(fields);
 
         FilterProvider filters = new SimpleFilterProvider().addFilter("SomeBeanFilter", filter);
 
@@ -44,5 +44,4 @@ public class FilteringController {
 
         return mappingJacksonValue;
     }
- 
 }
